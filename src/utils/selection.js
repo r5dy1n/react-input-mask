@@ -15,14 +15,16 @@ export function getInputSelection(input) {
   let start = 0;
   let end = 0;
 
-  if ('selectionStart' in input && 'selectionEnd' in input) {
-    start = input.selectionStart;
-    end = input.selectionEnd;
-  } else {
-    const range = document.selection.createRange();
-    if (range.parentElement() === input) {
-      start = -range.moveStart('character', -input.value.length);
-      end = -range.moveEnd('character', -input.value.length);
+  if (input) {
+    if ('selectionStart' in input && 'selectionEnd' in input) {
+      start = input.selectionStart;
+      end = input.selectionEnd;
+    } else {
+      const range = document.selection.createRange();
+      if (range.parentElement() === input) {
+        start = -range.moveStart('character', -input.value.length);
+        end = -range.moveEnd('character', -input.value.length);
+      }
     }
   }
 
