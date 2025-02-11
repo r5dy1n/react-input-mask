@@ -1,7 +1,7 @@
 {
-  "name": "@jm-development/react-input-mask",
+  "name": "@r5dy1n/react-input-mask",
   "description": "Masked input component for React",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "homepage": "https://github.com/sanniassin/react-input-mask",
   "license": "MIT",
   "author": "Nikita Lobachev <sanniassin@gmail.com>",
@@ -47,8 +47,8 @@
     "karma-webpack": "^2.0.13",
     "mocha": "^5.1.1",
     "puppeteer": "^1.7.0",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "rollup": "^0.65.0",
     "rollup-plugin-babel": "^4.0.2",
     "rollup-plugin-commonjs": "^9.1.6",
@@ -76,14 +76,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/McWhorter/react-input-mask.git"
+    "url": "git+https://github.com/r5dy1n/react-input-mask.git"
   },
   "dependencies": {
     "invariant": "^2.2.4",
     "warning": "^4.0.2"
   },
   "bugs": {
-    "url": "https://github.com/McWhorter/react-input-mask/issues"
+    "url": "https://github.com/r5dy1n/react-input-mask/issues"
   },
   "directories": {
     "lib": "lib",

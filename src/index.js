@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import invariant from 'invariant';
 import warning from 'warning';
 
@@ -15,7 +14,7 @@ import {
   getRightEditablePosition,
   getStringValue
 } from './utils/string';
-import { isFunction } from './utils/helpers';
+import { findDOMNode, isFunction } from './utils/helpers';
 import { defer, cancelDefer } from './utils/defer';
 
 class InputElement extends React.Component {

@@ -1,6 +1,6 @@
+import { createRoot } from "react-dom/client";
 /* eslint-disable no-console */
 import React from 'react';
-import ReactDOM from 'react-dom';
 import InputMask from '../src';
 
 class Input extends React.Component {
@@ -19,7 +19,8 @@ class Input extends React.Component {
   }
 }
 
-ReactDOM.render(<Input />, document.getElementById('root'));
+const root = createRoot(document.getElementById('root'));
+root.render(<Input />);
 
 function escapeHtml(unsafe) {
   return unsafe
