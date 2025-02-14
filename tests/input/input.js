@@ -6,17 +6,15 @@ import TestUtils from 'react-dom/test-utils';
 import { expect } from 'chai'; // eslint-disable-line import/no-extraneous-dependencies
 import { defer } from '../../src/utils/defer';
 import Input from '../../src';
-import { findDOMNode, isDOMElement } from '../../src/utils/helpers';
+import { useRef, useEffect } from 'react';
 
 document.body.innerHTML = '<div id="container"></div>';
 const container = document.getElementById('container');
 
-const getInputDOMNode = (input) => {
-  if (!isDOMElement(input)) {
-    input = findDOMNode(input);
-  }
+const getInputDOMNode = (ref) => {
+  let input = ref.current;
 
-  if (input.nodeName !== 'INPUT') {
+  if (input && input.nodeName !== 'INPUT') {
     input = input.querySelector('input');
   }
 
@@ -29,18 +27,30 @@ const getInputDOMNode = (input) => {
 
 const createInput = (component, cb) => {
   return () => {
-    let input;
+    let inputRef = React.createRef();
 
-    const root = createRoot(container);
-    root.unmount();
+    const TestComponent = () => {
+      const ref = useRef(null);
 
-    component = React.cloneElement(component, {
-      ref: (ref) => input = ref
-    });
+      useEffect(() => {
+        if (ref.current) {
+          inputRef.current = ref.current;
+        }
+      }, []);
+
+      return React.cloneElement(component, { ref });
+    };
 
     return new Promise((resolve, reject) => {
       const root = createRoot(container);
-      root.render(component);
+      root.render(<TestComponent />);
+
+      // Wait for the component to mount and the ref to be set
+      setTimeout(() => {
+        const input = inputRef.current;
+        const inputNode = getInputDOMNode(inputRef);
+        resolve(cb(input, inputNode));
+      }, 0);
     });
   };
 };
@@ -61,7 +71,7 @@ const setInputSelection = (input, start, length) => {
 
 const setInputProps = (input, props) => {
   const root = createRoot(container);
-  root.render(React.createElement(Input, { ...input.props, ...props }));
+  root.render(React.createElement(Input, { ...input.props, ...props, ref: input.ref }));
 };
 
 const insertStringIntoInput = (input, str) => {

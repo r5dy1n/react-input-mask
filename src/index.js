@@ -14,7 +14,7 @@ import {
   getRightEditablePosition,
   getStringValue
 } from './utils/string';
-import { findDOMNode, isFunction } from './utils/helpers';
+import { isFunction } from './utils/helpers';
 import { defer, cancelDefer } from './utils/defer';
 
 class InputElement extends React.Component {
@@ -23,6 +23,7 @@ class InputElement extends React.Component {
   previousSelection = null
   selectionDeferId = null
   saveSelectionLoopDeferId = null
+  inputRef = React.createRef()
 
   constructor(props) {
     super(props);
@@ -205,14 +206,9 @@ class InputElement extends React.Component {
       return null;
     }
 
-    let input = findDOMNode(this);
-    const isDOMNode = typeof window !== 'undefined'
-                      &&
-                      input instanceof window.Element;
+    let input = this.inputRef.current;
 
-    // workaround for react-test-renderer
-    // https://github.com/sanniassin/react-input-mask/issues/147
-    if (input && !isDOMNode) {
+    if (!input) {
       return null;
     }
 
@@ -540,6 +536,7 @@ class InputElement extends React.Component {
   }
 
   handleRef = (ref) => {
+    this.inputRef = ref;
     if (this.props.children == null && isFunction(this.props.inputRef)) {
       this.props.inputRef(ref);
     }
@@ -581,7 +578,7 @@ class InputElement extends React.Component {
         'react-input-mask: inputRef is ignored when children is passed, attach ref to the children instead'
       );
     } else {
-      inputElement = <input ref={this.handleRef} {...restProps} />;
+      inputElement = <input ref={this.inputRef} {...restProps} />;
     }
 
     const changedProps = {
